@@ -79,8 +79,10 @@ NSString *const AMCKeyValueCodingFailureException = @"AMCKeyValueCodingFailureEx
         return nil;
     
     NSString *className = [aDict objectForKey: kAMCDictionaryKeyClassName];
-    if( ![className isKindOfClass:[NSString class]] )
-        return nil;
+    if( ![className isKindOfClass:[NSString class]] ){
+        // allow use of anonymous dictionaries
+        className = NSStringFromClass([self class]);
+    }
     
     Class rClass = NSClassFromString(className);
     if ( rClass && [rClass instancesRespondToSelector:@selector(initWithDictionaryRepresentation:) ] )
